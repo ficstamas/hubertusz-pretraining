@@ -5,13 +5,13 @@ from datasets import Dataset, DatasetDict
 import random
 
 
-def preprocess_dataset():
-    dataset = load_dataset("../datasets/webcorpus/", regex="wiki*")
+def preprocess_dataset(path="datasets/webcorpus/", rgx_="wiki*", debug=False):
+    dataset = load_dataset(path, regex=rgx_)
 
     ds = {"sentence1": [], "sentence2": [], "next_sentence_label": []}
 
-    first = True
     for doc in dataset.train:
+        first = True
         for row in doc:
             if first:
                 ds["sentence1"].append(row)
@@ -27,7 +27,12 @@ def preprocess_dataset():
                 ds["next_sentence_label"].append(rng)
 
             first = not first
-        if len(ds["sentence1"]) != ds["sentence2"]:
+        if len(ds["sentence1"]) != len(ds["sentence2"]):
             del ds["sentence1"][-1]
+        if debug:
+            break
+
+    if debug:
+        return DatasetDict({"train": Dataset.from_dict(Dataset.from_dict(ds)[:1024])})
 
     return DatasetDict({"train": Dataset.from_dict(ds)})
