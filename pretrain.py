@@ -14,7 +14,7 @@ def main(args):
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer)
 
     args = TrainingArguments(
-        output_dir="hubert/large/",
+        output_dir=args.output_dir,
         per_gpu_train_batch_size=args.batch_size,
         per_device_train_batch_size=args.batch_size,
         gradient_accumulation_steps=args.gradiant_accumulation,
