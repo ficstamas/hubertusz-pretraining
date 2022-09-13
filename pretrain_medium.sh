@@ -1,0 +1,1 @@
+python pretrain.py --output_dir "/mnt/transfer/hubert-medium/" --batch_size 8 --gradiant_accumulation 128 --seq_length 128 --truncation --max_steps 500000 --config "prajjwal1/bert-medium"

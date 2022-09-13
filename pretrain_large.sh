@@ -1,1 +1,1 @@
-python pretrain.py --output_dir "/mnt/transfer/hubert-large/" --batch_size 8 --gradiant_accumulation 128 --seq_length 128 --truncation --bf16
+python pretrain.py --output_dir "/mnt/transfer/hubert-large/" --batch_size 8 --gradiant_accumulation 128 --seq_length 128 --truncation --max_steps 500000 --config "bert-large-cased"
