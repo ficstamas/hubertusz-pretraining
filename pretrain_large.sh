@@ -1,1 +1,1 @@
-python pretrain.py
+python pretrain.py --output_dir "/mnt/transfer/hubert-large/" --batch_size 8 --gradiant_accumulation 128 --seq_length 128 --truncation --bf16

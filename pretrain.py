@@ -33,7 +33,8 @@ def main(args):
         evaluation_strategy=IntervalStrategy.NO,
         seed=args.seed,
         data_seed=args.data_seed,
-        report_to=["wandb"]
+        report_to=["wandb"],
+        bf16=args.bf16
     )
 
     trainer = Trainer(
@@ -68,6 +69,7 @@ if __name__ == '__main__':
     argument_parser.add_argument("--warmup_steps", default=15_000, type=int)
     argument_parser.add_argument("--seed", default=42, type=int)
     argument_parser.add_argument("--data_seed", default=42, type=int)
+    argument_parser.add_argument("--bf16", action="store_true")
 
     argument_parser.add_argument("--debug", action="store_true")
 
