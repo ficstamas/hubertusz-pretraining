@@ -5,8 +5,9 @@ import wandb
 
 
 def main(args):
-    tokenizer, tokenizer_function = load_tokenizer(args.tokenizer, args.seq_length, args.truncation)
-    model = make_model(args.config, len(tokenizer))  # prajjwal1/bert-small
+    tokenizer, tokenizer_function = load_tokenizer(args.tokenizer if not args.resume else args.config, args.seq_length,
+                                                   args.truncation)
+    model = make_model(args.config, len(tokenizer), args.resume)  # prajjwal1/bert-small
     dataset = preprocess_dataset(debug=args.debug)
 
     tokenized_dataset = dataset.map(tokenizer_function, batched=True, batch_size=16,
@@ -70,6 +71,7 @@ if __name__ == '__main__':
     argument_parser.add_argument("--seed", default=42, type=int)
     argument_parser.add_argument("--data_seed", default=42, type=int)
     argument_parser.add_argument("--bf16", action="store_true")
+    argument_parser.add_argument("--resume", action="store_true")
 
     argument_parser.add_argument("--debug", action="store_true")
 
