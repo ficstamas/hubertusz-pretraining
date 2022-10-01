@@ -16,7 +16,7 @@ def main(args):
         tokenized_dataset = dataset.map(tokenizer_function, batched=True, batch_size=16,
                                         remove_columns=["sentence1", "sentence2"], drop_last_batch=True)
     else:
-        tokenized_dataset = load_from_disk("", keep_in_memory=False)
+        tokenized_dataset = load_from_disk(args.tokenized_dataset, keep_in_memory=False)
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer)
 
     args = TrainingArguments(
