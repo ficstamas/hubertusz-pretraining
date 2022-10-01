@@ -2,16 +2,21 @@ from components import *
 from transformers import DataCollatorForLanguageModeling, Trainer, TrainingArguments, IntervalStrategy
 from argparse import ArgumentParser
 import wandb
+from datasets import load_from_disk
 
 
 def main(args):
     tokenizer, tokenizer_function = load_tokenizer(args.tokenizer if not args.resume else args.config, args.seq_length,
                                                    args.truncation)
     model = make_model(args.config, len(tokenizer), args.resume)  # prajjwal1/bert-small
-    dataset = preprocess_dataset(debug=args.debug)
 
-    tokenized_dataset = dataset.map(tokenizer_function, batched=True, batch_size=16,
-                                    remove_columns=["sentence1", "sentence2"], drop_last_batch=True)
+    if not args.resume:
+        dataset = preprocess_dataset(debug=args.debug)
+
+        tokenized_dataset = dataset.map(tokenizer_function, batched=True, batch_size=16,
+                                        remove_columns=["sentence1", "sentence2"], drop_last_batch=True)
+    else:
+        tokenized_dataset = load_from_disk("", keep_in_memory=False)
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer)
 
     args = TrainingArguments(
@@ -58,6 +63,7 @@ if __name__ == '__main__':
     argument_parser.add_argument("--truncation", action="store_true")
 
     argument_parser.add_argument("--config", default="bert-large-cased", type=str)
+    argument_parser.add_argument("--tokenized_dataset", default="datasets/hubert_huweb-wiki_seq512/", type=str)
     argument_parser.add_argument("--batch_size", default=16, type=int)
     argument_parser.add_argument("--gradiant_accumulation", default=64, type=int)
     argument_parser.add_argument("--learning_rate", default=1e-4, type=float)
