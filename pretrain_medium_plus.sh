@@ -1,0 +1,1 @@
+python pretrain.py --output_dir "/mnt/transfer/hubert-medium-plus/" --batch_size 16 --gradiant_accumulation 24 --seq_length 512 --truncation --max_steps 100000 --config "SzegedAI/hubert-medium-wiki-seq128" --resume --tokenized_dataset "/mnt/transfer/hubert_huweb-wiki_seq512/"

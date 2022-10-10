@@ -1,8 +1,8 @@
 from transformers import AutoModelForPreTraining, AutoTokenizer, TFAutoModelForPreTraining, FlaxAutoModelForPreTraining
 
 
-path_to_cp = "datasets/hubert-small-500k-checkpoint-last/"
-repo_name = "hubert-small-wiki-seq128"
+path_to_cp = "datasets/hubert-small-plus-100k-checkpoint-last/"
+repo_name = "hubert-small-wiki"
 repo_url = f"https://huggingface.co/SzegedAI/{repo_name}"
 
 model = AutoModelForPreTraining.from_pretrained(path_to_cp)
